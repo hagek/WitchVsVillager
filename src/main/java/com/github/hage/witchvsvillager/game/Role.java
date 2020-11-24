@@ -1,23 +1,20 @@
 package com.github.hage.witchvsvillager.game;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+import java.util.function.Predicate;
+
+@AllArgsConstructor
+@Getter
 public enum Role {
-    VILLAGER(Team.VILLAGER, true, VILLAGER),
-    NECROMANCER(Team.VILLAGER, true),
-    SELF_KILLER(Team.ELSE, false),
-    WITCH(Team.WITCH, false),
-    CAT(Team.WITCH, true);
+    VILLAGER(Team.VILLAGER, true, victim -> victim.getRole().getTeam() == Team.VILLAGER),
+    NECROMANCER(Team.VILLAGER, true, victim -> victim.getRole().getTeam() == Team.VILLAGER),
+    SELF_KILLER(Team.ELSE, false, null),
+    WITCH(Team.WITCH, false, null),
+    CAT(Team.WITCH, true, victim -> victim.getRole() == Role.WITCH);
 
     private final Team team;
     private final boolean dependable;
-    private final List<Role> badAffinity;
-
-    Role(Team team, boolean dependable, Role... badAffinity) {
-        this.team = team;
-        this.dependable = dependable;
-        this.badAffinity = Arrays.asList(badAffinity);
-    }
+    private final Predicate<WVVPlayer> wrongKill;
 }

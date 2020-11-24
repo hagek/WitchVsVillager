@@ -1,5 +1,6 @@
 package com.github.hage.witchvsvillager.game;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -24,7 +25,7 @@ public class WVVPlayer {
     @Getter
     private boolean alive;
 
-    public static WVVPlayer getFromBukkitPlayer(Player player) {
+    public static WVVPlayer getBukkitPlayer(Player player) {
         return PLAYERS.get(player);
     }
 
@@ -40,5 +41,14 @@ public class WVVPlayer {
         NORMAL,
         FALLEN,
         NONE;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    enum DeathReason {
+        NORMAL("誰かに殺された"),
+        WRONG_KILL("誤殺してしまった");
+
+        String displayed;
     }
 }
