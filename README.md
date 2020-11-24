@@ -1,0 +1,4 @@
+# WitchVsVillager
+開発段階。進捗を確認してもらうためにGitHubにPublic Repositoryで公開。
+完成し次第Private Repositoryに変更する予定だが, それ以前にGitHubアカウントを作成してもらえればPrivateに移行するつもり。
+ソースコードはsrc内にある。
