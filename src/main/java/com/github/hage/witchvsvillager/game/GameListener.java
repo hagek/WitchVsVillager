@@ -1,6 +1,7 @@
 package com.github.hage.witchvsvillager.game;
 
 import com.github.hage.witchvsvillager.util.MessageUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,29 +35,31 @@ public class GameListener implements Listener {
         WVVPlayer wvvPlayer = WVVPlayer.getBukkitPlayer(player);
         if (wvvPlayer != null) {
             if (wvvPlayer.isAlive()) {
-                MessageUtil.sendMessage(ChatFilters.ALIVE_PLAYER, MessageUtil.format("&e{0}&7: &f{1}", wvvPlayer.getDisguisedAs().getPlayer().getName(), event.getMessage()));
+                MessageUtil.sendMessage(Filters.ALIVE, MessageUtil.format("&e{0}&7: &f{1}", wvvPlayer.getDisguisedAs().getPlayer().getName(), event.getMessage()));
             } else {
-                MessageUtil.sendMessage(ChatFilters.SPECTATOR, MessageUtil.format("&7[SPECTATOR] {0}: {1}", player.getName(), event.getMessage()));
+                MessageUtil.sendMessage(Filters.SPECTATOR, MessageUtil.format("&7[SPECTATOR] {0}: {1}", player.getName(), event.getMessage()));
             }
         } else {
-            MessageUtil.sendMessage(ChatFilters.NOT_JOINED_PLAYER, MessageUtil.format("&a{0}&7: &f{1}", player.getName(), event.getMessage()));
+            MessageUtil.sendMessage(Filters.GAME, MessageUtil.format("&a{0}&7: &f{1}", player.getName(), event.getMessage()));
         }
     }
 
     @Getter
-    public enum ChatFilters {
-        ALIVE_PLAYER(null),
-        SPECTATOR(player -> !WVVPlayer.getBukkitPlayer(player).isAlive()),
-        NOT_JOINED_PLAYER(Objects::isNull);
+    @AllArgsConstructor
+    public enum Filters {
+        GAME(Objects::nonNull),
+        ALIVE(player -> GAME.test(player) && WVVPlayer.getBukkitPlayer(player).isAlive()),
+        SPECTATOR(player -> GAME.test(player) && !WVVPlayer.getBukkitPlayer(player).isAlive()),
+        SERVER(null);
 
         private final Predicate<Player> filter;
 
-        ChatFilters(Predicate<Player> filter) {
-            this.filter = filter;
-        }
-
         public List<Player> getFiltered() {
             return Bukkit.getOnlinePlayers().stream().filter(this.filter).collect(Collectors.toList());
+        }
+
+        public boolean test(Player player) {
+            return this.filter.test(player);
         }
     }
 }

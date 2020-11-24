@@ -16,7 +16,7 @@ public class MessageUtil {
         Bukkit.getOnlinePlayers().stream().filter(filter).collect(Collectors.toList()).forEach(player -> player.sendMessage(messages));
     }
 
-    public static void sendMessage(GameListener.ChatFilters filter, String... messages) {
+    public static void sendMessage(GameListener.Filters filter, String... messages) {
         sendMessage(filter.getFilter(), messages);
     }
 
