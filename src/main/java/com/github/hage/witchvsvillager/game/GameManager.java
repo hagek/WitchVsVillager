@@ -1,19 +1,27 @@
 package com.github.hage.witchvsvillager.game;
 
 import com.google.common.collect.Maps;
-import lombok.Getter;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class GameManager {
 
-    @Getter
-    private static final HashMap<Integer, WVVPlayer> JOINED_PLAYERS = Maps.newHashMap();
+    private static final HashMap<Player, WVVPlayer> JOINED_PLAYERS = Maps.newHashMap();
+
+    public static WVVPlayer fromBukkitPlayer(Player player) {
+        return JOINED_PLAYERS.get(player);
+    }
+
+    public void join(Player player) {
+
+    }
+
+    public void leave(WVVPlayer player) {
+
+    }
 
     public void swapSkin() {
-        JOINED_PLAYERS.values().stream().filter(WVVPlayer::isAlive).map(wvvPlayer -> (CraftPlayer) wvvPlayer.getPlayer()).collect(Collectors.toList()).forEach(skin -> {
-            skin
-        });
+
     }
 }

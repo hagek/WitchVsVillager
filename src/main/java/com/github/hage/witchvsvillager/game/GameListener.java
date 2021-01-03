@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerEvent;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,21 +19,32 @@ import java.util.stream.Collectors;
 
 public class GameListener implements Listener {
 
-    private Collection<? extends Player> onlinePlayers;
-
     @EventHandler
     public void onDeath(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             Player victim = (Player) event.getEntity();
-            WVVPlayer wvvPlayer = WVVPlayer.getBukkitPlayer(victim);
-            wvvPlayer.onDeath();
+            WVVPlayer wvvPlayer = GameManager.fromBukkitPlayer(victim);
+            switch (victim.getLastDamageCause().getCause()) {
+                case ENTITY_ATTACK:
+                case ENTITY_SWEEP_ATTACK:
+                case PROJECTILE:
+                    WVVPlayer opponent = GameManager.fromBukkitPlayer(victim.getKiller());
+                    if (wvvPlayer.isWrongKill(opponent)) {
+                        wvvPlayer.onDeath(WVVPlayer.DeathReason.WRONG_KILL);
+                    } else {
+                        wvvPlayer.onDeath(WVVPlayer.DeathReason.NORMAL);
+                    }
+                    break;
+                default:
+                    wvvPlayer.onDeath(WVVPlayer.DeathReason.OTHER);
+            }
         }
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        WVVPlayer wvvPlayer = WVVPlayer.getBukkitPlayer(player);
+        WVVPlayer wvvPlayer = GameManager.fromBukkitPlayer(player);
         if (wvvPlayer != null) {
             if (wvvPlayer.isAlive()) {
                 MessageUtil.sendMessage(Filters.ALIVE, MessageUtil.format("&e{0}&7: &f{1}", wvvPlayer.getDisguisedAs().getPlayer().getName(), event.getMessage()));
@@ -48,9 +60,9 @@ public class GameListener implements Listener {
     @AllArgsConstructor
     public enum Filters {
         GAME(Objects::nonNull),
-        ALIVE(player -> GAME.test(player) && WVVPlayer.getBukkitPlayer(player).isAlive()),
-        SPECTATOR(player -> GAME.test(player) && !WVVPlayer.getBukkitPlayer(player).isAlive()),
-        SERVER(null);
+        ALIVE(player -> GAME.test(player) && GameManager.fromBukkitPlayer(player).isAlive()),
+        SPECTATOR(player -> GAME.test(player) && !GameManager.fromBukkitPlayer(player).isAlive()),
+        SERVER(player -> true);
 
         private final Predicate<Player> filter;
 

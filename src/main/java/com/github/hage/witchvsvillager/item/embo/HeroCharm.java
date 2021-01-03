@@ -1,5 +1,6 @@
 package com.github.hage.witchvsvillager.item.embo;
 
+import com.github.hage.witchvsvillager.game.WVVPlayer;
 import com.github.hage.witchvsvillager.util.BukkitUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -7,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class HeroCharm extends Charm {
 
     @Override
-    public void onClick() {
+    public void onClick(WVVPlayer player) {
 
     }
 

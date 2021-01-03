@@ -1,5 +1,6 @@
 package com.github.hage.witchvsvillager.item.embo;
 
+import com.github.hage.witchvsvillager.game.WVVPlayer;
 import com.github.hage.witchvsvillager.item.Clickable;
 import com.github.hage.witchvsvillager.item.CustomItem;
 import com.github.hage.witchvsvillager.item.Purchasable;
@@ -10,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class Lantern extends CustomItem implements Clickable, Purchasable {
 
     @Override
-    public void onClick() {
+    public void onClick(WVVPlayer player) {
 
     }
 
@@ -21,6 +22,6 @@ public class Lantern extends CustomItem implements Clickable, Purchasable {
 
     @Override
     public int getPrice() {
-        return 0;
+        return 3;
     }
 }

@@ -27,7 +27,7 @@ public class GodBless extends CustomItem implements Clickable, Purchasable {
     }
 
     @Override
-    public void onClick() {
+    public void onClick(WVVPlayer player) {
 
     }
 

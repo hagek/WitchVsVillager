@@ -20,6 +20,22 @@ public class MessageUtil {
         sendMessage(filter.getFilter(), messages);
     }
 
+    public static void sendMessage(Player player, String... messages) {
+        player.sendMessage(messages);
+    }
+
+    public static void sendTitle(Predicate<Player> filter, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+        Bukkit.getOnlinePlayers().stream().filter(filter).collect(Collectors.toList()).forEach(player -> player.sendTitle(title, subTitle, fadeIn, stay, fadeOut));
+    }
+
+    public static void sendTitle(GameListener.Filters filter, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+        sendTitle(filter.getFilter(), title, subTitle, fadeIn, stay, fadeOut);
+    }
+
+    public static void sendTitle(Player player, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
+        player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
+    }
+
     public static String colored(String text) {
         return text == null ? null : ChatColor.translateAlternateColorCodes('&', text);
     }
