@@ -1,6 +1,6 @@
 package com.github.hage.witchvsvillager.game;
 
-import com.github.hage.witchvsvillager.util.MessageUtil;
+import com.github.hage.witchvsvillager.util.PerformanceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -9,9 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -47,13 +47,24 @@ public class GameListener implements Listener {
         WVVPlayer wvvPlayer = GameManager.fromBukkitPlayer(player);
         if (wvvPlayer != null) {
             if (wvvPlayer.isAlive()) {
-                MessageUtil.sendMessage(Filters.ALIVE, MessageUtil.format("&e{0}&7: &f{1}", wvvPlayer.getDisguisedAs().getPlayer().getName(), event.getMessage()));
+                PerformanceUtil.sendMessage(Filters.ALIVE, PerformanceUtil.format("&e{0}&7: &f{1}", wvvPlayer.getDisguisedAs().getPlayer().getName(), event.getMessage()));
             } else {
-                MessageUtil.sendMessage(Filters.SPECTATOR, MessageUtil.format("&7[SPECTATOR] {0}: {1}", player.getName(), event.getMessage()));
+                PerformanceUtil.sendMessage(Filters.SPECTATOR, PerformanceUtil.format("&7[SPECTATOR] {0}: {1}", player.getName(), event.getMessage()));
             }
         } else {
-            MessageUtil.sendMessage(Filters.GAME, MessageUtil.format("&a{0}&7: &f{1}", player.getName(), event.getMessage()));
+            PerformanceUtil.sendMessage(Filters.GAME, PerformanceUtil.format("&a{0}&7: &f{1}", player.getName(), event.getMessage()));
         }
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        event.setQuitMessage(PerformanceUtil.format("&e%s&7がーサーバーから退出しました"));
+        GameManager.leave(event.getPlayer());
     }
 
     @Getter

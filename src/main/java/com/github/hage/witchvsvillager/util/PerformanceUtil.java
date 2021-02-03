@@ -3,6 +3,7 @@ package com.github.hage.witchvsvillager.util;
 import com.github.hage.witchvsvillager.game.GameListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.function.Predicate;
@@ -10,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class MessageUtil {
+public class PerformanceUtil {
 
     public static void sendMessage(Predicate<Player> filter, String... messages) {
         Bukkit.getOnlinePlayers().stream().filter(filter).collect(Collectors.toList()).forEach(player -> player.sendMessage(messages));
@@ -57,5 +58,17 @@ public class MessageUtil {
             }
         }
         return text;
+    }
+
+    public static void playSound(Player player, Sound sound, float volume, float pitch) {
+        player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    public static void playSound(Predicate<Player> filter, Sound sound, float volume, float pitch) {
+        Bukkit.getServer().getOnlinePlayers().stream().filter(filter).forEach(player -> playSound(player, sound, volume, pitch));
+    }
+
+    public static void playSound(GameListener.Filters filter, Sound sound, float volume, float pitch) {
+        playSound(filter.getFilter(), sound, volume, pitch);
     }
 }

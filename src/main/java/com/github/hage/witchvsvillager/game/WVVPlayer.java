@@ -1,6 +1,6 @@
 package com.github.hage.witchvsvillager.game;
 
-import com.github.hage.witchvsvillager.util.MessageUtil;
+import com.github.hage.witchvsvillager.util.PerformanceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.ChatColor;
@@ -18,7 +18,7 @@ public class WVVPlayer {
     private boolean alive;
 
     public void onDeath(DeathReason reason) {
-        MessageUtil.sendTitle(this.player, ChatColor.RED + reason.getDisplayedText(), ChatColor.WHITE + "", 0, 100, 0);
+        PerformanceUtil.sendTitle(this.player, ChatColor.RED + reason.getDisplayedText(), ChatColor.WHITE + "", 0, 100, 0);
     }
 
     public void changeSkin() {
