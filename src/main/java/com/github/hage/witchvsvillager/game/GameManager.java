@@ -61,6 +61,14 @@ public class GameManager {
         PerformanceUtil.sendTitle(GameListener.Filters.GAME, winner.getPerfix() + "の勝利", "&6&l&nGAME SET", 10, 100, 10);
     }
 
+    public static boolean isGaming() {
+        return gameState != GameState.WAITING_TO_START && gameState != GameState.WAITING_FOR_PLAYERS;
+    }
+
+    public static boolean isJoined(Player player) {
+        return GAME_PLAYERS.containsKey(player);
+    }
+
     public static void swapSkin() {
 
     }

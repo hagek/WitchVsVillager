@@ -7,6 +7,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class Emerald extends CustomItem {
 
+    public Emerald() {
+        super("emerald");
+    }
+
     @Override
     protected ItemStack getItemStack() {
         return BukkitUtil.newItem(Material.EMERALD, "&aエメラルド", "", "&7ゲーム内通貨", "&7これと引き換えにショップで戦利品を購入できる");

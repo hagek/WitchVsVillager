@@ -14,6 +14,10 @@ import java.util.HashMap;
 public class GodBless extends CustomItem implements Clickable, Purchasable {
     private static final HashMap<WVVPlayer, Integer> COUNT = Maps.newHashMap();
 
+    public GodBless() {
+        super("god_bless");
+    }
+
     public static int getCount(WVVPlayer wvvPlayer) {
         return COUNT.get(wvvPlayer);
     }
@@ -28,7 +32,7 @@ public class GodBless extends CustomItem implements Clickable, Purchasable {
 
     @Override
     public void onClick(WVVPlayer player) {
-
+        //TODO 効果付与
     }
 
     @Override

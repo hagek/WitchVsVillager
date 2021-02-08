@@ -8,6 +8,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class WoodenSword extends CustomItem implements Purchasable {
 
+    public WoodenSword() {
+        super("wooden_sword");
+    }
+
     @Override
     public int getPrice() {
         return 3;

@@ -10,9 +10,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class Lantern extends CustomItem implements Clickable, Purchasable {
 
+    public Lantern(String id) {
+        super("lantern");
+    }
+
     @Override
     public void onClick(WVVPlayer player) {
-
+        //TODO 暗視付与
     }
 
     @Override

@@ -9,9 +9,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class ShuffleBook extends CustomItem implements Clickable {
 
+    public ShuffleBook() {
+        super("shuffle_book");
+    }
+
     @Override
     public void onClick(WVVPlayer player) {
-
+        //TODO スキンをシャッフル
     }
 
     @Override

@@ -7,9 +7,13 @@ import org.bukkit.inventory.ItemStack;
 
 public class HeroCharm extends Charm {
 
+    public HeroCharm() {
+        super("hero_charm");
+    }
+
     @Override
     public void onClick(WVVPlayer player) {
-
+        //TODO 効果付与
     }
 
     @Override
