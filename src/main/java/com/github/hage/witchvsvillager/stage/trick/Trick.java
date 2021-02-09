@@ -1,7 +1,6 @@
 package com.github.hage.witchvsvillager.stage.trick;
 
 import com.github.hage.witchvsvillager.game.GameManager;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;

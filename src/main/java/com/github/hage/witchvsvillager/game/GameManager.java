@@ -57,8 +57,19 @@ public class GameManager {
         }
     }
 
+    public static void start() {
+
+    }
+
+    public static void stop() {
+        GAME_PLAYERS.values().stream().map(WVVPlayer::getPlayer).forEach(player -> player.teleport(WitchVsVillager.lobby().getLocation()));
+        gameState = GameState.WAITING_FOR_PLAYERS;
+    }
+
     public static void gameSet(Team winner) {
         PerformanceUtil.sendTitle(GameListener.Filters.GAME, winner.getPerfix() + "の勝利", "&6&l&nGAME SET", 10, 100, 10);
+        gameRunnable.cancel();
+        (gameRunnable = new EndingRunnable()).runTaskTimer(WitchVsVillager.inst(), 20, 0);
     }
 
     public static boolean isGaming() {
@@ -87,6 +98,10 @@ public class GameManager {
     static class StartRunnable extends WVVRunnable {
         private int time = 20;
 
+        public StartRunnable() {
+            gameState = GameState.WAITING_TO_START;
+        }
+
         @Override
         public void run() {
             if (--this.time % 10 == 0 || this.time <= 5) {
@@ -94,14 +109,20 @@ public class GameManager {
                 PerformanceUtil.sendMessage(GameListener.Filters.GAME, "&7ゲーム開始まで&e" + this.time + "&7秒");
                 if (this.time == 0) {
                     this.cancel();
-                    (gameRunnable = new GameRunnable()).runTaskTimer(WitchVsVillager.)
+                    (gameRunnable = new GameRunnable()).runTaskTimer(WitchVsVillager.inst(), 20, 0);
                 }
             }
         }
+
+
     }
 
     static class GameRunnable extends WVVRunnable {
         private int timeLeft = 500;
+
+        public GameRunnable() {
+            gameState = GameState.GAMING;
+        }
 
         @Override
         public void run() {
@@ -109,7 +130,25 @@ public class GameManager {
             if (this.timeLeft == 500) {
                 PerformanceUtil.sendTitle(GameListener.Filters.GAME, "&c&l&nGAME STARTED", "&7Witch vs Villager", 0, 100, 10);
             } else if (this.timeLeft == 0) {
+                //TODO 生き残ったので村人の勝利
+            }
+        }
+    }
 
+    static class EndingRunnable extends WVVRunnable {
+        private int timeLeft = 10;
+
+        public EndingRunnable() {
+            gameState = GameState.ENDING;
+        }
+
+        @Override
+        public void run() {
+            this.timeLeft--;
+            if (this.timeLeft == 10) {
+                //TODO 結果発表
+            } else if (this.timeLeft == 0) {
+                GameManager.swapSkin();
             }
         }
     }
