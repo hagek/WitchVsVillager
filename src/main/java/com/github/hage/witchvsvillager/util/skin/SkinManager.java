@@ -63,7 +63,7 @@ public class SkinManager {
 	}
 
 	public static void changeSkin(Player p, @Nullable Skin skin) {
-		PLAYER_SKIN_MAP.put(p.getUniqueId(), Optional.ofNullable(skin).orElse(Skin.EMPTY));
+		PLAYER_SKIN_MAP.put(p.getUniqueId(), skin == null ? Skin.EMPTY : skin);
 		updateGameProfile(p);
 	}
 
