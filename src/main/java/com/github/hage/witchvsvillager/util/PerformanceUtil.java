@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
+import java.text.MessageFormat;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,18 +47,7 @@ public class PerformanceUtil {
     }
 
     public static String format(String format, Object... args) {
-        String text = colored(format);
-        Matcher matcher = Pattern.compile("\\{\\d+}").matcher(format);
-        while (matcher.find()) {
-            String group = matcher.group();
-            int index = Integer.parseInt(group.substring(1, group.length() - 1));
-            if (args.length > index) {
-                text = text.replaceFirst(Pattern.quote(group), colored(String.valueOf(args[index]).replace("$", "\\$")));
-            } else {
-                text = text.replaceFirst(Pattern.quote(group), "null");
-            }
-        }
-        return text;
+        return MessageFormat.format(format, args);
     }
 
     public static void playSound(Player player, Sound sound, float volume, float pitch) {

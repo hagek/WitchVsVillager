@@ -2,3 +2,4 @@ name: WitchVsVillager
 version: ${project.version}
 main: com.github.hage.witchvsvillager.WitchVsVillager
 authors: [hage1]
+depend: [ProtocolLib]
